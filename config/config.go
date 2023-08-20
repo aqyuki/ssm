@@ -6,6 +6,10 @@ type (
 		GetMaximumThreads() int     // GetMaximumThreads return the maximum number of the application how many useable threads
 	}
 
+	FileConfig interface {
+		GetDefaultDirectory() (string, error) // GetDefaultDirectory return the destination folder
+	}
+
 	AppConfig struct {
 		EnableThreads       bool   `json:"enable_threads"`     // EnableThreads is a option to use threads
 		MaximumThreads      int    `json:"maximum_threads"`    // MaximumThreads is a maximum number to be used
