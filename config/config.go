@@ -23,3 +23,14 @@ type (
 		LogFileName         string `json:"log_file_name"`      // LogFileName is a name of log file
 	}
 )
+
+func (c *AppConfig) IsEnableMultiThreads() bool {
+	return c.EnableThreads
+}
+
+func (c *AppConfig) GetMaximumThreads() int {
+	if c.MaximumThreads <= 1 || !c.EnableThreads {
+		return 1
+	}
+	return c.MaximumThreads
+}
