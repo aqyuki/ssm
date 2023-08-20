@@ -44,3 +44,11 @@ func (c *AppConfig) GetDefaultDirectory() (string, error) {
 	}
 	return c.DefaultDirectory, nil
 }
+
+func (c *AppConfig) GetDefaultLogDirectory() string {
+	return c.DefaultLogDirectory
+}
+
+func (c *AppConfig) GetBaseLogFileName() string {
+	return c.LogFileName
+}
