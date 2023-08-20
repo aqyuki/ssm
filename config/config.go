@@ -1,6 +1,11 @@
 package domain
 
 type (
+	ThreadsConfig interface {
+		IsEnableMultiThreads() bool // IsEnableMultiThreads return if application is allowed multi thread
+		GetMaximumThreads() int     // GetMaximumThreads return the maximum number of the application how many useable threads
+	}
+
 	AppConfig struct {
 		EnableThreads       bool   `json:"enable_threads"`     // EnableThreads is a option to use threads
 		MaximumThreads      int    `json:"maximum_threads"`    // MaximumThreads is a maximum number to be used
