@@ -10,6 +10,11 @@ type (
 		GetDefaultDirectory() (string, error) // GetDefaultDirectory return the destination folder
 	}
 
+	LogConfig interface {
+		GetDefaultLogDirectory() string // GetDefaultLogDirectory return the path of default log directory
+		GetBaseLogFileName() string     // GetBaseLogFileName return the name of log file
+	}
+
 	AppConfig struct {
 		EnableThreads       bool   `json:"enable_threads"`     // EnableThreads is a option to use threads
 		MaximumThreads      int    `json:"maximum_threads"`    // MaximumThreads is a maximum number to be used
