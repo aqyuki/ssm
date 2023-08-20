@@ -1,5 +1,7 @@
 package domain
 
+import "os"
+
 type (
 	ThreadsConfig interface {
 		IsEnableMultiThreads() bool // IsEnableMultiThreads return if application is allowed multi thread
@@ -33,4 +35,12 @@ func (c *AppConfig) GetMaximumThreads() int {
 		return 1
 	}
 	return c.MaximumThreads
+}
+
+func (c *AppConfig) GetDefaultDirectory() (string, error) {
+	f, err := os.Stat(c.DefaultDirectory)
+	if os.IsNotExist(err) || !f.IsDir() {
+		return "", os.ErrNotExist
+	}
+	return c.DefaultDirectory, nil
 }
