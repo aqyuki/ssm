@@ -5,9 +5,13 @@ import (
 	"errors"
 	"os"
 	"path/filepath"
+	"runtime"
+
+	goos "github.com/aqyuki/ssm/config/os"
 )
 
 var (
+	ErrUnsupportedOS     = errors.New("executed on unsupported OS")
 	ErrNonInformation    = errors.New("information required for execution could not be obtained")
 	ErrInitializeFailure = errors.New("configure file could not be loaded")
 )
@@ -20,6 +24,21 @@ func createDefaultConfig() *AppConfig {
 		DefaultLogDirectory: "",
 		LogFileName:         "log.txt",
 	}
+
+	if runtime.GOOS == "windows" {
+		dir, err := goos.GetWindowsDefaultDirectory()
+		if err != nil {
+			os.Exit(-1)
+		}
+		config.DefaultDirectory = dir
+
+		log, err := goos.GetWindowsDefaultLogDirectory()
+		if err != nil {
+			os.Exit(-1)
+		}
+		config.DefaultLogDirectory = log
+	}
+
 	return &config
 }
 
@@ -47,6 +66,10 @@ func createApplicationDirectory(config *AppConfig, configDir string, configFile 
 
 // Initialize load configuration file and parse the data to a Go structure
 func Initialize() (*AppConfig, error) {
+
+	if runtime.GOOS != "windows" {
+		return nil, ErrUnsupportedOS
+	}
 
 	var configDir string
 	configDir, err := GetConfigureDirectory()
