@@ -1,6 +1,10 @@
 package config
 
-import "os"
+import (
+	"encoding/json"
+	"io"
+	"os"
+)
 
 type (
 	ThreadsConfig interface {
@@ -51,4 +55,18 @@ func (c *AppConfig) GetDefaultLogDirectory() string {
 
 func (c *AppConfig) GetBaseLogFileName() string {
 	return c.LogFileName
+}
+
+func New(r io.Reader) (*AppConfig, error) {
+	b, err := io.ReadAll(r)
+	if err != nil {
+		return nil, err
+	}
+
+	cnf := new(AppConfig)
+	err = json.Unmarshal(b, cnf)
+	if err != nil {
+		return nil, err
+	}
+	return cnf, nil
 }
